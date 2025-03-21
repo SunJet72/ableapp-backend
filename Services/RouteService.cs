@@ -13,7 +13,7 @@ public class RouteService
         httpClient = new HttpClient();
     }
 
-    public Way GetRoute(Point start, Point end)
+    public async Task<Way> GetRouteAsync(Point start, Point end)
     {
         return new Way();
     }
