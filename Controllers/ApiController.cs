@@ -19,7 +19,7 @@ public class ApiController : ControllerBase
         reportService = repSer;
     }
     
-    [HttpPost]
+    [HttpPost("route")]
     public async Task<IActionResult> GetRouteAsync([FromBody] RouteRequest routeRequest)
     {
         if(routeRequest == null){
