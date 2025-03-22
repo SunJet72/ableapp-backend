@@ -12,6 +12,8 @@ public class Details
 
     [JsonPropertyName("time")]
     public List<List<int>> time { get; set; }
+    [JsonPropertyName("distance")]
+    public List<List<double>> distance { get; set; }
 }
 
 public class Hints

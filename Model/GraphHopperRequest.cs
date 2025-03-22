@@ -31,7 +31,7 @@ public class GraphHopperRequest
     public int alternative_routemax_paths { get; set; } = 3;
 
     [JsonPropertyName("details")]
-    public List<string> details { get; set; } = ["surface","time", "road_class"];
+    public List<string> details { get; set; } = ["surface","time", "road_class", "distance"];
 
     [JsonPropertyName("points")]
     public List<List<double>> points { get; set; }

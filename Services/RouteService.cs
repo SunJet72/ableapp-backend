@@ -107,7 +107,8 @@ public class RouteService
                         {
                             path.Terrain = terrain;
                             path.IsSteps = false;
-                            path.Duration = jsonPath.details.time.Where(t => t[0] >= from && t[1] <= stepsFrom).Select(t => t[2]).Sum();
+                            path.Duration = jsonPath.details.time.Where(t => t[0] >= i - path.Points.Count() + 1 && t[1] <= i).Select(t => t[2]).Sum();
+                            path.Distance = jsonPath.details.distance.Where(t => t[0] >= i - path.Points.Count() + 1 && t[1] <= i).Select(t => t[2]).Sum();
                             way.Paths.Add(path);
                             stepsCount++;
                             if(stepsCount < steps.Count())
@@ -116,11 +117,12 @@ public class RouteService
                                 stepsTo = ((JsonElement)steps[stepsCount][1]).GetInt32();
                             }
                             path = new();
-                        }
+                            path.Points.Add(p);                       }
                         if (stepsTo != to && i == stepsTo && i != to){
                             path.Terrain = terrain;
                             path.IsSteps = true;
-                            path.Duration = jsonPath.details.time.Where(t => t[0] >= from && t[1] <= stepsFrom).Select(t => t[2]).Sum();
+                            path.Duration = jsonPath.details.time.Where(t => t[0] >= i - path.Points.Count() + 1 && t[1] <= i).Select(t => t[2]).Sum();
+                            path.Distance = jsonPath.details.distance.Where(t => t[0] >= i - path.Points.Count() + 1 && t[1] <= i).Select(t => t[2]).Sum();
                             way.Paths.Add(path);
                             stepsCount++;
                             if(stepsCount < steps.Count())
@@ -129,6 +131,7 @@ public class RouteService
                                 stepsTo = ((JsonElement)steps[stepsCount][1]).GetInt32();
                             }
                             path = new();
+                            path.Points.Add(p);
                         }
                     // } catch (Exception e)
                     // {
@@ -138,6 +141,9 @@ public class RouteService
                 }
                 if(path.Points.Count() > 1)
                 {
+                    path.Duration = jsonPath.details.time.Where(t => t[0] >= to - path.Points.Count() + 1 && t[1] <= to).Select(t => t[2]).Sum();
+                    path.Distance = jsonPath.details.distance.Where(t => t[0] >= to - path.Points.Count() + 1 && t[1] <= to).Select(t => t[2]).Sum();
+                    
                     if(stepsFrom == from) {
                         path.IsSteps = true;
                         stepsCount++;
