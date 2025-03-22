@@ -9,6 +9,7 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddSingleton<RouteService>();
+builder.Services.AddSingleton<IReportService, MockReportService>();
 
 var app = builder.Build();
 

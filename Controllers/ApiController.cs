@@ -8,13 +8,15 @@ namespace TodoApi.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class RouteController : ControllerBase
+public class ApiController : ControllerBase
 {
     private RouteService routeService;
+    private IReportService reportService;
 
-    public RouteController(RouteService rS)
+    public ApiController(RouteService rS, IReportService repSer)
     {
         routeService = rS;
+        reportService = repSer;
     }
     
     [HttpPost("route")]
@@ -28,5 +30,24 @@ public class RouteController : ControllerBase
             return BadRequest();
         }
         return Ok(way);
+    }
+
+    [HttpPost("addreport")]
+    public IActionResult AddReport([FromBody] ReportRequest repRec)
+    {
+        if(repRec == null){
+            return BadRequest();
+        }
+        reportService.AddReport(repRec.Adress);
+        return Ok("Report reported");
+    }
+
+    [HttpPost("getreport")]
+    public IActionResult GetReport([FromBody] ReportRequest repRec)
+    {
+        if(repRec == null){
+            return BadRequest();
+        }
+        return Ok(reportService.GetReport(repRec.Adress));
     }
 }
