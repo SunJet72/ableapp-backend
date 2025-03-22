@@ -6,15 +6,18 @@ namespace TodoApi.Services;
 
 public class RouteService
 {
-    private readonly string baseUrl = "https://graphhopper.com/api/1/route";
+    private readonly string baseUrl = "http://localhost:8989/route";
 
     private HttpClient httpClient;
     private StepService stepService;
+
+    private Dictionary<GraphHopperRequest, GraphHopperRoute> cache;
 
     public RouteService()
     {
         httpClient = new HttpClient();
         stepService = new StepService();
+        cache = new Dictionary<GraphHopperRequest, GraphHopperRoute>();
     }
 
     public async Task<Way?> GetRouteAsync(Point start, Point end, 

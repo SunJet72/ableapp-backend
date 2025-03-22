@@ -9,8 +9,8 @@ public class CustomModel
 
 public class GraphHopperRequest
 {
-    [JsonPropertyName("vehicle")]
-    public string vehicle { get; set; } = "foot";
+    [JsonPropertyName("profile")]
+    public string profile { get; set; } = "foot";
 
     [JsonPropertyName("algorithm")]
     public string algorithm { get; set; } = "alternative_route";
