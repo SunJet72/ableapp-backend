@@ -15,7 +15,7 @@ public class RouteService
         httpClient = new HttpClient();
     }
 
-    public async Task<Way?> GetRouteAsync(Point start, Point end)
+    public async Task<Way?> GetRouteAsync(Point start, Point end, TerrainEnum cobblestoneState, TerrainEnum gravelState)
     {
         //string staticParams = "details=surface&details=time&elevation=true&points_encoded=false&instructions=false&vehicle=foot&key=LijBPDQGfu7Iiq80w3HzwB4RUDJbMbhs6BU0dEnn";
         // string jsonBody = """
@@ -42,10 +42,42 @@ public class RouteService
         //     }
         //     """;
 
+        double gravelFactor = gravelState switch
+        {
+            TerrainEnum.EASY => 1,
+            TerrainEnum.MEDIUM => 0.5,
+            TerrainEnum.HARD => 0.25,
+            TerrainEnum.IMPOSSIBLE => 0,
+            _ => 1
+        };
+        double cobblestoneFactor = cobblestoneState switch
+        {
+            TerrainEnum.EASY => 1,
+            TerrainEnum.MEDIUM => 0.5,
+            TerrainEnum.HARD => 0.25,
+            TerrainEnum.IMPOSSIBLE => 0,
+            _ => 1
+        };
+
         GraphHopperRequest request = new()
         {
-            points = [[start.Lon, start.Lat], [end.Lon, end.Lat]]
+            points = [[start.Lon, start.Lat], [end.Lon, end.Lat]],
+            custom_model = new(){
+                speed =[ 
+                    new(){
+                        @if = "surface==GRAVEL",
+                        multiply_by = gravelFactor.ToString()
+                    },
+                    new(){
+                        @if = "surface==COBBLESTONE",
+                        multiply_by = cobblestoneFactor.ToString()
+                    }
+                ]
+            }
         };
+
+        Console.WriteLine(JsonSerializer.Serialize(request));
+
         
         HttpResponseMessage response = await httpClient.PostAsJsonAsync(baseUrl + "?key=LijBPDQGfu7Iiq80w3HzwB4RUDJbMbhs6BU0dEnn", request);
         if(response.StatusCode != HttpStatusCode.OK)

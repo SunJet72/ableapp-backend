@@ -36,8 +36,8 @@ public class GraphHopperRequest
     [JsonPropertyName("points")]
     public List<List<double>> points { get; set; }
 
-    [JsonIgnore]
-    public CustomModel custom_model { get; set; } = null;
+    [JsonPropertyName("custom_model")]
+    public CustomModel custom_model { get; set; }
 }
 
 public class Speed

@@ -25,7 +25,8 @@ public class ApiController : ControllerBase
         if(routeRequest == null){
             return BadRequest();
         }
-        Way? way = await routeService.GetRouteAsync(routeRequest.Start, routeRequest.End);
+        Way? way = await routeService.GetRouteAsync(
+            routeRequest.Start, routeRequest.End, routeRequest.SandState, routeRequest.GravelState);
         if(way==null){
             return BadRequest();
         }
