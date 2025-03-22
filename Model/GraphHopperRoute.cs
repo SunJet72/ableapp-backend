@@ -4,6 +4,11 @@ namespace TodoApi.Model;
 
 public class Details
 {
+    [JsonPropertyName("surface")]
+    public List<List<object>> surface { get; set; }
+
+    [JsonPropertyName("time")]
+    public List<List<int>> time { get; set; }
 }
 
 public class Hints
@@ -25,33 +30,6 @@ public class Info
 
     [JsonPropertyName("road_data_timestamp")]
     public DateTime road_data_timestamp { get; set; }
-}
-
-public class Instruction
-{
-    [JsonPropertyName("distance")]
-    public double distance { get; set; }
-
-    [JsonPropertyName("heading")]
-    public double heading { get; set; }
-
-    [JsonPropertyName("sign")]
-    public int sign { get; set; }
-
-    [JsonPropertyName("interval")]
-    public List<int> interval { get; set; }
-
-    [JsonPropertyName("text")]
-    public string text { get; set; }
-
-    [JsonPropertyName("time")]
-    public int time { get; set; }
-
-    [JsonPropertyName("street_name")]
-    public string street_name { get; set; }
-
-    [JsonPropertyName("last_heading")]
-    public double? last_heading { get; set; }
 }
 
 public class JsonPath
@@ -76,9 +54,6 @@ public class JsonPath
 
     [JsonPropertyName("points")]
     public Points points { get; set; }
-
-    [JsonPropertyName("instructions")]
-    public List<Instruction> instructions { get; set; }
 
     [JsonPropertyName("legs")]
     public List<object> legs { get; set; }

@@ -5,7 +5,7 @@ namespace TodoApi.Model;
 public class Path
 {
     public List<Point> Points { get; set; } = [];
-    public string Terrain { get; set; } = "asphalt";
+    public TerrainTypeEnum Terrain { get; set; } = TerrainTypeEnum.Normal;
     public int Duration { get; set; } = 0;
     
     [JsonIgnore]
