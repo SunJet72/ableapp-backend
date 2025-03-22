@@ -53,7 +53,6 @@ public class RouteService
             Console.WriteLine("Status code: " + response.StatusCode);
             return null;
         }
-        Console.WriteLine("Response:\n" + await response.Content.ReadAsStringAsync());
         GraphHopperRoute? json = null;
         try 
         {
