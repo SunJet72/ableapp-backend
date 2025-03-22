@@ -7,6 +7,9 @@ public class Details
     [JsonPropertyName("surface")]
     public List<List<object>> surface { get; set; }
 
+    [JsonPropertyName("road_class")]
+    public List<List<object>> road_class { get; set; }
+
     [JsonPropertyName("time")]
     public List<List<int>> time { get; set; }
 }
@@ -45,6 +48,9 @@ public class JsonPath
 
     [JsonPropertyName("transfers")]
     public int transfers { get; set; }
+
+    [JsonPropertyName("description")]
+    public List<string> description { get; set; }
 
     [JsonPropertyName("points_encoded")]
     public bool points_encoded { get; set; }
@@ -100,4 +106,3 @@ public class SnappedWaypoints
     [JsonPropertyName("coordinates")]
     public List<List<double>> coordinates { get; set; }
 }
-

@@ -8,4 +8,5 @@ public class Way
     public List<Path> Paths { get; set; } = [];
     [JsonPropertyName("distance")]
     public double Distance {get; set;} = 0;
+    public int Duration {get; set;} = 0;
 }

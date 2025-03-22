@@ -4,6 +4,8 @@ namespace TodoApi.Model;
 
 public class Point
 {
+    [JsonIgnore]
+    public int Id {get; set;}
     public double Lat {get;set;}
     public double Lon {get;set;}
     [JsonIgnore]
@@ -11,6 +13,6 @@ public class Point
 
     public override string ToString()
     {
-        return Lat.ToString() + "%2C" + Lon.ToString();
+        return Lon.ToString() + "," + Lat.ToString();
     }
 }
