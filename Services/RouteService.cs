@@ -20,12 +20,13 @@ public class RouteService
         string staticParams = "details=surface&details=time&elevation=true&points_encoded=false&instructions=false&vehicle=foot&key=LijBPDQGfu7Iiq80w3HzwB4RUDJbMbhs6BU0dEnn";
         HttpResponseMessage response = await httpClient.GetAsync(baseUrl + "?" + staticParams +
             "&point=" + start + "&point=" + end);
+        Console.WriteLine("Response:\n" + await response.Content.ReadAsStringAsync());
+
         if(response.StatusCode != HttpStatusCode.OK)
         {
             Console.WriteLine("Status code: " + response.StatusCode);
             return null;
         }
-        Console.WriteLine("Response:\n" + await response.Content.ReadAsStringAsync());
         GraphHopperRoute? json = null;
         try 
         {

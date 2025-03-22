@@ -11,6 +11,6 @@ public class Point
 
     public override string ToString()
     {
-        return Lat.ToString() + "%2C" + Lon.ToString();
+        return Lat.ToString().Replace(',', '.') + "%2C" + Lon.ToString().Replace(',', '.');
     }
 }
