@@ -23,12 +23,12 @@ public class ApiController : ControllerBase
     public async Task<IActionResult> GetRouteAsync([FromBody] RouteRequest routeRequest)
     {
         if(routeRequest == null){
-            return BadRequest();
+            return BadRequest("request invalid");
         }
         Way? way = await routeService.GetRouteAsync(
-            routeRequest.Start, routeRequest.End, routeRequest.SandState, routeRequest.GravelState);
+            routeRequest.Start, routeRequest.End, routeRequest.SandState, routeRequest.GravelState, routeRequest.StairsCount);
         if(way==null){
-            return BadRequest();
+            return BadRequest("way is null");
         }
         return Ok(way);
     }

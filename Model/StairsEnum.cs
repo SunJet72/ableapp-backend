@@ -1,3 +1,3 @@
 public enum StairsEnum{
-    EASY, OneTillNine, TenTillNineteen, TwentyTillFifty, Untiteled
+    EASY, OneTillNine, TenTillNineteen, TwentyTillFifty, Unlimited
 }

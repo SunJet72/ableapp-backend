@@ -9,13 +9,16 @@ public class RouteService
     private readonly string baseUrl = "https://graphhopper.com/api/1/route";
 
     private HttpClient httpClient;
+    private StepService stepService;
 
     public RouteService()
     {
         httpClient = new HttpClient();
+        stepService = new StepService();
     }
 
-    public async Task<Way?> GetRouteAsync(Point start, Point end, TerrainEnum cobblestoneState, TerrainEnum gravelState)
+    public async Task<Way?> GetRouteAsync(Point start, Point end, 
+    TerrainEnum cobblestoneState, TerrainEnum gravelState, StairsEnum stairValue)
     {
         //string staticParams = "details=surface&details=time&elevation=true&points_encoded=false&instructions=false&vehicle=foot&key=LijBPDQGfu7Iiq80w3HzwB4RUDJbMbhs6BU0dEnn";
         // string jsonBody = """
@@ -59,6 +62,16 @@ public class RouteService
             _ => 1
         };
 
+        double stepFactor = stairValue switch
+        {
+            StairsEnum.EASY => 1,
+            StairsEnum.OneTillNine => 0.1,
+            StairsEnum.TenTillNineteen => 0.25,
+            StairsEnum.TwentyTillFifty => 0.5,
+            StairsEnum.Unlimited => 0,
+            _ => 1
+        };
+
         GraphHopperRequest request = new()
         {
             points = [[start.Lon, start.Lat], [end.Lon, end.Lat]],
@@ -71,6 +84,10 @@ public class RouteService
                     new(){
                         @if = "surface==COBBLESTONE",
                         multiply_by = cobblestoneFactor.ToString()
+                    },
+                    new(){
+                        @if = "road_class==STEPS",
+                        multiply_by = stepFactor.ToString()
                     }
                 ]
             }
@@ -186,8 +203,18 @@ public class RouteService
             }
             way.Distance = jsonPath.distance;
             way.Duration = jsonPath.time;
+            stepService.CountSteps(way);
             ways.Add(way);
-        }    
-        return ways.FirstOrDefault();
+        }
+        int stairCount = stairValue switch{
+            StairsEnum.EASY => -1,
+            StairsEnum.OneTillNine => 9,
+            StairsEnum.TenTillNineteen => 19,
+            StairsEnum.TwentyTillFifty => 50,
+            StairsEnum.Unlimited => 0,
+            _ => -1
+        };
+        if (stairCount == -1) return ways.FirstOrDefault();
+        return ways.Where(w => w.Paths.Select(p => p.StepsCount).Sum() <= stairCount).FirstOrDefault();
     }
 }
